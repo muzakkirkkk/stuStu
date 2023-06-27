@@ -8,10 +8,10 @@
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
     <apikit:config name="student-sapi-config" api="student-sapi.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	<configuration-properties doc:name="Configuration properties" doc:id="3613cd2e-8344-47cc-a166-91aff8fdc7f9" file="properties/${mule.env}.yaml" />
-	<configuration-properties doc:name="Configuration properties" doc:id="2e3dab69-a0b2-49f3-9dec-01cbbdc6206a" file="properties/${mule.env}.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="3613cd2e-8344-47cc-a166-91aff8fdc7f9" file="properties/dev.yaml" />
+	<configuration-properties doc:name="Configuration properties" doc:id="2e3dab69-a0b2-49f3-9dec-01cbbdc6206a" file="properties/dev.yaml" />
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="b99db6a2-38e5-4249-a30f-55b0149203e0" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
+		<http:listener-connection host="${http.listener.host}" port="${http.listener.port}" readTimeout="${http.listener.readTimeOut}"/>
 	</http:listener-config>
 	
 	

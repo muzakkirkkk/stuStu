@@ -1,5 +1,5 @@
 http:
-  listener:
-   host:"0.0.0.0"
-   port:"8081"
-   readTimeOut:"3000"
+ listener:
+  host: "0.0.0.0"
+  port: "8081"
+  readTimeOut: "3000"
