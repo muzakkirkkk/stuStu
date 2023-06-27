@@ -1,0 +1,10 @@
+#%RAML 1.0 Library
+usage:
+traits:
+  common-headers: !include traits/common-header-trait.raml
+  authorization-headers: !include traits/authorization-trait.raml
+  header-headers: !include traits/header-trait.raml
+
+types:
+  request-record-stu: !include datatypes/record-stu-req-dataType.raml
+  response-record-stu: !include datatypes/record-stu-req-dataType.raml  

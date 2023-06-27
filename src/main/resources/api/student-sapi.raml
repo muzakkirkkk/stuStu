@@ -1,0 +1,72 @@
+#%RAML 1.0
+title: student
+
+uses:
+  common-library: exchange_modules/80d6cbf4-3922-4829-b910-708637b1f220/common-fragment/1.0.7/common-fragment.raml
+
+
+/stu:
+ /stuTransaction:
+  post:
+    is:
+    
+      - common-library.error-response
+      - common-library.common-headers
+      - common-library.header-headers
+      
+
+    body:
+      application/json:
+        type: common-library.request-record-stu
+
+    responses:
+      201:
+        body:
+          application/json:
+            type: common-library.response-record-stu
+
+  patch:   
+    is:
+     - common-library.authorization-headers
+     - common-library.error-response
+     - common-library.common-headers
+     - common-library.header-headers
+    body:
+      application/json:
+        type: common-library.update-stu-req
+
+    responses:
+      200:
+        body:
+          application/json:
+            type: common-library.update-stu-res
+      
+  get:
+    description: "We will fetch based on the area code/ policy code"
+    is:
+      - common-library.authorization-headers
+      - common-library.error-response
+
+    responses:
+     200:
+       body:
+        application/json:
+          type: object
+          properties:
+            retreiveStuRecordListResponse:
+              required: true 
+              type: object
+              properties:
+                stuRecord:
+                  required: true 
+                  type: common-library.retreive-stu-res
+          
+      
+
+  
+        
+  
+
+
+     
+    

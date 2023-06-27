@@ -1,0 +1,8 @@
+{
+  "message": "failed operation",
+  "code":400,
+  "eventId": "dfyhghgf",
+  "error":{
+    "type":"BAD_REQUEST"
+  }
+}
