@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
  
   
     
@@ -48,15 +48,21 @@ output application/json
         </error-handler>
     </flow>
     <flow name="patch:\stu\stuTransaction:application\json:student-sapi-config">
-		<ee:transform doc:name="Transform Message" doc:id="5cbea4a5-6258-484b-8243-5501491390b4" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
 ---
 {
+  message: "failed operation",
+  code: 400,
+  eventId: "dfyhghgf",
+  error: {
+    "type": "BAD_REQUEST"
+  }
 }]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+            </ee:message>
+        </ee:transform>
 		<error-handler ref="global-errorError_Handler-apikit" />
     </flow>
     <flow name="get:\stu\stuTransaction:student-sapi-config">
@@ -77,12 +83,22 @@ output application/json
         </ee:transform>
 		<error-handler ref="global-errorError_Handler-apikit" />
     </flow>
-    <flow name="student-sapiFlow" doc:id="78b50fe7-0993-4470-a5b6-e6c84ab557c1" />
-	<flow name="post:\stu\stuTransaction:application\json:student-sapi-config">
-		<flow-ref doc:name="Initialize-reqData" doc:id="b9a3d794-9f3d-41d0-ac1c-9fdbd776b50f" name="initialize-req-data"/>
-		<logger level="INFO" doc:name="Start-Logger" doc:id="1bf6a32e-e2d5-49b5-97f4-cce35e7c7e8e" message='#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    timeStamp: vars.requestStartTime, 	&#10;    transactionId: vars.headers, 	&#10;    appName: app.name, 	&#10;    flowName: flow.name, 	&#10;    businessProcessName:  p(businessProcessName), 	&#10;    originatingApplication:  "Process API", 	&#10;    desinationApplication:  "Database", 	&#10;    customerIdentifier: "NA", 	&#10;    txnState:  "Start Log" &#10;}]' />
-		<flow-ref doc:name="Record-Stu" doc:id="cf3224f5-9e0e-4a4b-8af7-a607ba77abe5" name="record-stu-implementationFlow"/>
-		<logger level="INFO" doc:name="End-Logger" doc:id="cb97d31c-47e7-4254-93bf-33775d45f90e" message='#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    timeStamp: (now() &gt;&gt; "IST")[0 to 18],  	&#10;    transactionId: vars.headers, 	&#10;    appName: app.name, 	&#10;    flowName: flow.name, 	&#10;    businessProcessName:  p(businessProcessName), 	&#10;    originatingApplication:  "Process API", 	&#10;    desinationApplication:  "Database", 	&#10;    customerIdentifier: "NA", 	&#10;    txnState:  "End Log" &#10;}]' />
+    <flow name="post:\stu\stuTransaction:application\json:student-sapi-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  message: "failed operation",
+  code: 400,
+  eventId: "dfyhghgf",
+  error: {
+    "type": "BAD_REQUEST"
+  }
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
 		<error-handler ref="global-errorError_Handler-apikit" />
     </flow>
 </mule>
