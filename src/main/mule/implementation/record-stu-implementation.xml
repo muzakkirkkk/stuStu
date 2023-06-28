@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="64789e78-05fb-42f6-9872-3b6ac8eb6000" >
+		<db:my-sql-connection host="0.0.0.0" port="3306" user="root" password="root" database="stu" />
+	</db:config>
+	<db:config name="Database_Config1" doc:name="Database Config" doc:id="8def2369-63fb-42aa-a6da-0b5506886845" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="root" database="stu" />
+	</db:config>
+	<flow name="record-stu-implementationFlow" doc:id="39e683d0-efef-45f4-ac99-2e47999427e2" >
+		<logger level="INFO" doc:name="Before Db Call" doc:id="2016dddc-dbf8-4b5f-a9f7-0f7f4634a8ec" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    timeStamp: (now() &gt;&gt; &quot;IST&quot;)[0 to 18], 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    appName: app.name, 	&#10;    flowName: flow.name, 	&#10;    businessProcessName:  p(businessProcessName), 	&#10;    originatingApplication:  &quot;Process API&quot;, 	&#10;    desinationApplication:  &quot;DB&quot;, 	&#10;    customerIdentifier: &quot;NA&quot;, 	&#10;    txnState:  &quot;Before DB call&quot; &#10;}]"/>
+		<db:insert doc:name="Insert" doc:id="036e1fc3-abe0-4f15-92b4-9a7f330f8902" config-ref="Database_Config1">
+			<db:sql ><![CDATA[insert into student(id, name, age, sex)
+value(:id, :name, :age, :sex)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{"id": payload.id, "name": payload.name, "age": payload.age, "sex": payload.sex }]]]></db:input-parameters>
+		</db:insert>
+		<logger level="INFO" doc:name="After Db Call" doc:id="0e458a26-d41f-4851-8cdd-7596fffd8cc9" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    timeStamp: (now() &gt;&gt; &quot;IST&quot;)[0 to 18], 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    appName: app.name, 	&#10;    flowName: flow.name, 	&#10;    businessProcessName:  p(businessProcessName), 	&#10;    originatingApplication:  &quot;Process API&quot;, 	&#10;    desinationApplication:  &quot;DB&quot;, 	&#10;    customerIdentifier: &quot;NA&quot;, 	&#10;    txnState:  &quot;After DB call&quot; &#10;}]" />
+		<error-handler ref="global-errorError_Handler-apikit" />
+	</flow>
+</mule>
